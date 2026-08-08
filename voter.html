@@ -48,18 +48,36 @@
         <div class="group"><label>पूरा पता:</label><input type="text" id="vAddress"></div>
         <div class="group"><label>मोबाइल (WhatsApp):</label><input type="tel" id="vMobile" placeholder="10 अंकों का नंबर"></div>
 
-        <!-- ज़रूरी डॉक्यूमेंट्स की सूची और निर्देश -->
-        <div style="background: #eef2f7; padding: 12px; border-radius: 8px; margin-bottom: 15px;">
-            <b style="color: #d9534f; display: block; margin-bottom: 5px;">📄 लगने वाले डॉक्यूमेंट्स (Documents Required):</b>
-            <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #333;">
-                <li>जन्मतिथि प्रमाण (DOB Proof)</li>
-                <li>पता प्रमाण (Address Proof)</li>
-                <li>पासपोर्ट साइज फोटो (Photo)</li>
-            </ul>
-            <p style="margin: 8px 0 0 0; font-size: 13px; color: #555;">⚠️ <i>नोट: फॉर्म सबमिट करने के बाद ऊपर दिए गए डॉक्यूमेंट्स अपनी गैलरी से चुनकर WhatsApp पर भेजें।</i></p>
+        <div class="group">
+            <label>भुगतान का तरीका (Payment Method):</label>
+            <select id="payMethod" onchange="togglePaymentBox()">
+                <option value="दुकान पर नकद देंगे (Pay at Shop)">दुकान पर नकद देंगे (Cash / Pay at Shop)</option>
+                <option value="ऑनलाइन UPI पेमेंट (Online QR Scan)">ऑनलाइन UPI पेमेंट (QR स्कैन करके)</option>
+            </select>
         </div>
 
-        <button class="btn" onclick="validateAndSendVoter()">WhatsApp पर भेजें</button>
+        <div id="onlinePayBox" style="display: none; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px dashed #1a73e8; text-align: center; margin-bottom: 15px;">
+            <b style="color: #1a73e8; display: block; margin-bottom: 8px;">📱 QR कोड स्कैन करके ₹100 पेमेंट करें:</b>
+            <img src="qrcode.jpg" alt="UPI QR Code" style="width: 180px; height: auto; margin: 10px auto; display: block; border-radius: 8px; border: 1px solid #ccc;">
+            <p style="font-size: 13px; color: #555; margin: 0 0 10px 0;">UPI ID: <b>kantlalmandal88@okicici</b></p>
+            <div style="font-size: 12px; color: #d9534f; background: #fff3f3; padding: 6px; border-radius: 4px;">
+                ⚠️ पेमेंट करने के बाद UTR नंबर नीचे लिखें:
+            </div>
+            <div class="group" style="margin-top: 10px; text-align: left;">
+                <label>UPI Transaction / UTR No:</label>
+                <input type="text" id="upiRefNo" placeholder="पेमेंट का UTR नंबर लिखें">
+            </div>
+        </div>
+
+        <div style="background: #eef2f7; padding: 12px; border-radius: 8px; margin-bottom: 15px;">
+            <b style="color: #d9534f; display: block; margin-bottom: 5px;">📄 लगने वाले डॉक्यूमेंट्स:</b>
+            <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #333;">
+                <li>जन्मतिथि प्रमाण, पता प्रमाण, पासपोर्ट साइज फोटो</li>
+            </ul>
+            <p style="margin: 8px 0 0 0; font-size: 13px; color: #555;">⚠️ <i>नोट: फॉर्म सबमिट करने के बाद अपनी गैलरी से डॉक्यूमेंट्स चुनकर WhatsApp पर भेजें।</i></p>
+        </div>
+
+        <button class="btn" onclick="validateAndSendVoter()">WhatsApp पर रसीद भेजें</button>
         <a href="index.html" class="back-link">← होम पेज पर वापस जाएं</a>
     </div>
 
@@ -69,6 +87,11 @@
             let isCorrection = (type === "वोटर कार्ड सुधार");
             document.getElementById("oldVoterGroup").style.display = isCorrection ? "block" : "none";
             document.getElementById("voterCorrectionGroup").style.display = isCorrection ? "block" : "none";
+        }
+        function togglePaymentBox() {
+            let method = document.getElementById("payMethod").value;
+            let payBox = document.getElementById("onlinePayBox");
+            payBox.style.display = method.includes("ऑनलाइन") ? "block" : "none";
         }
         function isValidMobile(mobile) { return /^[0-9]{10}$/.test(mobile); }
         function validateAndSendVoter() {
@@ -82,12 +105,17 @@
             if(voterType === "वोटर कार्ड सुधार") {
                 document.querySelectorAll('input[name="voterCorrect"]:checked').forEach(cb => corrections.push(cb.value));
             }
-            let msg = `*--- वोटर कार्ड आवेदन ---*\n` +
+            let payMethod = document.getElementById("payMethod").value;
+            let upiRef = document.getElementById("upiRefNo").value.trim() || "लागू नहीं";
+
+            let msg = `🧾 *--- पेमेंट & आवेदन रसीद ---*\n` +
                       `💻 दुकान: Best to Best Computer (बड़बाद)\n` +
                       `📋 सेवा: ${voterType}\n` +
                       (voterType === "वोटर कार्ड सुधार" ? `🔢 एपिक नंबर: ${oldVoterNo}\n✏️ सुधार: ${corrections.join(", ") || 'कुछ नहीं'}\n` : ``) +
-                      `💵 शुल्क: ₹100\n\n` +
-                      `👤 नाम: ${name}\n` +
+                      `💵 शुल्क: ₹100\n` +
+                      `💳 भुगतान स्थिति: ${payMethod}\n` +
+                      (payMethod.includes("ऑनलाइन") ? `🔢 UTR/Ref No: ${upiRef}\n` : ``) +
+                      `\n👤 ग्राहक नाम: ${name}\n` +
                       `👨‍👦 पिता का नाम: ${document.getElementById("vFname").value}\n` +
                       `👩‍👦 माता का नाम: ${document.getElementById("vMname").value}\n` +
                       `🆔 आधार नंबर: ${document.getElementById("vAadhaar").value || 'लागू नहीं'}\n` +
@@ -95,7 +123,7 @@
                       `📅 जन्मतिथि: ${document.getElementById("vDob").value}\n` +
                       `🏠 पता: ${document.getElementById("vAddress").value}\n` +
                       `📞 मोबाइल: ${mobile}\n\n` +
-                      `📎 _(नोट: ग्राहक इसके बाद जन्मतिथि प्रमाण, पता प्रमाण और फोटो WhatsApp पर भेजेंगे)_`;
+                      `📎 _(नोट: ग्राहक इसके बाद डॉक्यूमेंट्स WhatsApp पर भेजेंगे)_`;
             window.open(`https://wa.me/916204339748?text=` + encodeURIComponent(msg), '_blank');
         }
     </script>
