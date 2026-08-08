@@ -1,0 +1,244 @@
+﻿/* Google Font Import */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #f4dcd6; /* यहाँ फोटो जैसा सॉफ्ट पिंक बैकग्राउंड कलर सेट किया गया है */
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Form Container & Main Box */
+.form-box, .container {
+    background: #ffffff;
+    width: 100%;
+    max-width: 550px;
+    padding: 35px 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    border-top: 5px solid #d946ef; /* ऊपर की बॉर्डर को मैचिंग पिंक/पर्पल शेड दिया गया है */
+}
+
+/* Headers & Shop Logo Text */
+h1, h2 {
+    text-align: center;
+    color: #a21caf; /* फोटो की तरह हेडिंग का रंग पर्पल/मैजेंटा किया गया है */
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+h1 { font-size: 24px; text-transform: uppercase; }
+h2 { font-size: 20px; }
+
+p {
+    text-align: center;
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 25px;
+    font-weight: 500;
+}
+
+/* Logo Design inside Index */
+.shop-logo {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.logo-icon {
+    font-size: 45px;
+    background: linear-gradient(135deg, #c026d3, #9333ea);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.logo-text {
+    font-size: 20px;
+    font-weight: 700;
+    color: #a21caf;
+    text-transform: uppercase;
+}
+
+.logo-tagline {
+    font-size: 12px;
+    color: #db2777;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 2px;
+}
+
+/* Input Fields */
+.group {
+    margin-bottom: 16px;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #475569;
+    font-size: 14px;
+}
+
+input[type="text"], 
+input[type="tel"], 
+input[type="email"], 
+input[type="date"], 
+select, 
+input[type="file"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #fce7f3; /* इनपुट बॉक्स का बॉर्डर हल्का पिंक */
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background-color: #fdf2f8; /* इनपुट के अंदर का हल्का पिंक शेड */
+}
+
+input:focus, select:focus {
+    border-color: #d946ef;
+    background-color: #ffffff;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(217, 70, 239, 0.15);
+}
+
+input[type="file"] {
+    padding: 9px;
+    cursor: pointer;
+}
+
+/* WhatsApp Submit Button */
+.btn {
+    background: #25d366;
+    color: #ffffff;
+    border: none;
+    padding: 15px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+}
+
+.btn:hover {
+    background: #1ebd5b;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+}
+
+/* Fee Boxes / Tables */
+.fee, .fee-table {
+    background: #fdf4ff;
+    color: #c026d3;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 20px;
+    border: 1px dashed #f0abfc;
+    font-size: 15px;
+}
+
+/* Homepage Services Buttons */
+.service-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    color: #1e293b;
+    text-decoration: none;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 2px solid #fce7f3;
+}
+
+.service-btn:hover {
+    border-color: #d946ef;
+    background: #fdf4ff;
+    color: #a21caf;
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(217, 70, 239, 0.1);
+}
+
+/* Back Link */
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    padding: 12px;
+    background: #fce7f3;
+    border-radius: 8px;
+    color: #86198f;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.back-link:hover {
+    background: #fbcfe8;
+    color: #701a75;
+}
+
+/* Checkbox Group */
+.checkbox-group {
+    background: #fdf2f8;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #fce7f3;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.checkbox-group label {
+    font-weight: normal;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+/* Top Arrow Button */
+.top-arrow {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #d946ef;
+    color: white;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 22px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    z-index: 1000;
+    transition: 0.3s;
+}
+
+.top-arrow:hover {
+    background: #c026d3;
+    transform: translateY(-3px);
+}

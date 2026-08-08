@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>कलर फोटो फॉर्म - Best to Best Computer</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="top-arrow" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</div>
+
+    <div class="form-box">
+        <h2>कलर फोटो प्रिंट आर्डर फॉर्म</h2>
+        <div class="fee-table">रेट लिस्ट: 3 पीस = ₹20 | 6 पीस = ₹30 | 12 पीस = ₹50 | 24 पीस = ₹90</div>
+
+        <div class="group"><label>ग्राहक का नाम:</label><input type="text" id="pName"></div>
+        <div class="group"><label>मोबाइल (WhatsApp):</label><input type="tel" id="pMobile" placeholder="10 अंकों का नंबर"></div>
+        <div class="group">
+            <label>फोटो की मात्रा चुनें:</label>
+            <select id="pQty">
+                <option value="3 पीस (₹20)">3 पीस - ₹20</option>
+                <option value="6 पीस (₹30)">6 पीस - ₹30</option>
+                <option value="12 पीस (₹50)">12 पीस - ₹50</option>
+                <option value="24 पीस (₹90)">24 पीस - ₹90</option>
+            </select>
+        </div>
+        <div class="group"><label>फोटो अपलोड करें:</label><input type="file" id="pFiles" multiple></div>
+
+        <button class="btn" onclick="validateAndSendPhoto()">WhatsApp पर भेजें</button>
+        <a href="index.html" class="back-link">← होम पेज पर वापस जाएं</a>
+    </div>
+
+    <script>
+        function getFiles(id) {
+            let files = document.getElementById(id).files;
+            let names = [];
+            for (let i = 0; i < files.length; i++) { names.push(files[i].name); }
+            return names.length > 0 ? names.join(", ") : "संलग्न नहीं";
+        }
+
+        function isValidMobile(mobile) { return /^[0-9]{10}$/.test(mobile); }
+
+        function validateAndSendPhoto() {
+            let name = document.getElementById("pName").value.trim();
+            let mobile = document.getElementById("pMobile").value.trim();
+
+            if (!name) { alert("कृपया नाम दर्ज करें!"); return; }
+            if (!isValidMobile(mobile)) { alert("कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें!"); return; }
+
+            let msg = `*--- कलर फोटो आर्डर ---*\n` +
+                      `💻 दुकान: Best to Best Computer (बड़बाद)\n` +
+                      `🖼️ मात्रा: ${document.getElementById("pQty").value}\n\n` +
+                      `👤 नाम: ${name}\n` +
+                      `📞 मोबाइल: ${mobile}\n` +
+                      `📎 फोटो फाइल: ${getFiles('pFiles')}`;
+
+            window.open(`https://wa.me/916204339748?text=` + encodeURIComponent(msg), '_blank');
+        }
+    </script>
+</body>
+</html>
