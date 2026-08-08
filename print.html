@@ -11,17 +11,24 @@
     <div class="top-arrow" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</div>
     <div class="form-box">
         <h2>प्रिंट आउट सेवा (Document Print)</h2>
-        <div class="fee">B/W Print Rs.10 | Color Print Rs.15</div>
+        
+        <div class="fee-table" style="background: #e8f0fe; color: #1a73e8; padding: 10px; border-radius: 6px; font-weight: 600; text-align: center; margin-bottom: 15px; font-size: 14px; line-height: 1.6;">
+            🖨️ <b>प्रिंट रेट लिस्ट (Rate List):</b><br>
+            • ब्लैक एंड व्हाइट (B/W) = ₹10 प्रति पेज<br>
+            • कलर प्रिंट (Color) = ₹15 प्रति पेज
+        </div>
         
         <div class="group"><label>ग्राहक का नाम:</label><input type="text" id="printName"></div>
         <div class="group"><label>मोबाइल (WhatsApp):</label><input type="tel" id="printMobile" placeholder="10 अंकों का नंबर"></div>
+        
         <div class="group">
             <label>प्रिंट का प्रकार (Print Type):</label>
-            <select id="printType">
-                <option value="ब्लैक एंड व्हाइट (B/W Print)">ब्लैक एंड व्हाइट (B/W)</option>
-                <option value="कलर प्रिंट (Color Print)">कलर प्रिंट (Color)</option>
+            <select id="printType" onchange="updatePrintQR()">
+                <option value="ब्लैक एंड व्हाइट (B/W Print)" data-price="10">ब्लैक एंड व्हाइट (B/W) - ₹10</option>
+                <option value="कलर प्रिंट (Color Print)" data-price="15">कलर प्रिंट (Color) - ₹15</option>
             </select>
         </div>
+
         <div class="group">
             <label>कॉपी की संख्या (Copies):</label>
             <input type="text" id="printCopies" placeholder="जैसे: 1 कॉपी, 2 कॉपी आदि">
@@ -36,8 +43,9 @@
         </div>
 
         <div id="onlinePayBox" style="display: none; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px dashed #1a73e8; text-align: center; margin-bottom: 15px;">
-            <b style="color: #1a73e8; display: block; margin-bottom: 8px;">📱 QR कोड स्कैन करके पेमेंट करें:</b>
-            <img src="qrcode.jpg" alt="UPI QR Code" style="width: 180px; height: auto; margin: 10px auto; display: block; border-radius: 8px; border: 1px solid #ccc;">
+            <b style="color: #1a73e8; display: block; margin-bottom: 8px;" id="printQrTitle">📱 QR कोड स्कैन करके पेमेंट करें:</b>
+            <!-- यहाँ आपका नया printqr.jpg सेट किया गया है -->
+            <img src="printqr.jpg" alt="UPI QR Code" style="width: 180px; height: auto; margin: 10px auto; display: block; border-radius: 8px; border: 1px solid #ccc;">
             <p style="font-size: 13px; color: #555; margin: 0 0 10px 0;">UPI ID: <b>kantlalmandal88@okicici</b></p>
             <div style="font-size: 12px; color: #d9534f; background: #fff3f3; padding: 6px; border-radius: 4px;">
                 ⚠️ पेमेंट करने के बाद UTR नंबर नीचे लिखें:
@@ -58,25 +66,37 @@
     </div>
 
     <script>
+        function updatePrintQR() {
+            let select = document.getElementById("printType");
+            let price = select.options[select.selectedIndex].getAttribute("data-price");
+            document.getElementById("printQrTitle").innerText = `📱 QR कोड स्कैन करके ₹${price} प्रति पेज पेमेंट करें:`;
+        }
+
         function togglePaymentBox() {
             let method = document.getElementById("payMethod").value;
             let payBox = document.getElementById("onlinePayBox");
             payBox.style.display = method.includes("ऑनलाइन") ? "block" : "none";
         }
+
         function isValidMobile(mobile) { return /^[0-9]{10}$/.test(mobile); }
+
         function validateAndSendPrint() {
             let name = document.getElementById("printName").value.trim();
             let mobile = document.getElementById("printMobile").value.trim();
             if (!name) { alert("कृपया नाम दर्ज करें!"); return; }
             if (!isValidMobile(mobile)) { alert("कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें!"); return; }
-            let printType = document.getElementById("printType").value;
+            
+            let printSelect = document.getElementById("printType");
+            let printType = printSelect.value;
+            let price = printSelect.options[printSelect.selectedIndex].getAttribute("data-price");
             let copies = document.getElementById("printCopies").value.trim() || "1 कॉपी";
+            
             let payMethod = document.getElementById("payMethod").value;
             let upiRef = document.getElementById("upiRefNo").value.trim() || "लागू नहीं";
 
             let msg = `🧾 *--- प्रिंट आउट रसीद ---*\n` +
                       `💻 दुकान: Best to Best Computer (बड़बाद)\n` +
-                      `🖨️ प्रकार: ${printType}\n` +
+                      `🖨️ प्रकार: ${printType} (दर: ₹${price}/पेज)\n` +
                       `📄 कॉपी: ${copies}\n` +
                       `💳 भुगतान स्थिति: ${payMethod}\n` +
                       (payMethod.includes("ऑनलाइन") ? `🔢 UTR/Ref No: ${upiRef}\n` : ``) +
