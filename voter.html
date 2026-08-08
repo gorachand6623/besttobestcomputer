@@ -8,13 +8,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-
     <div class="top-arrow" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</div>
-
     <div class="form-box">
         <h2>वोटर कार्ड आवेदन फॉर्म</h2>
         <div class="fee">शुल्क (Fee): ₹100</div>
-
         <div class="group">
             <label>सेवा चुनें:</label>
             <select id="voterType" onchange="toggleVoterCorrection()">
@@ -22,12 +19,10 @@
                 <option value="वोटर कार्ड सुधार">वोटर कार्ड सुधार (Correction)</option>
             </select>
         </div>
-
         <div class="group" id="oldVoterGroup" style="display: none;">
-            <label>एपिक नंबर (पुराना Voter ID Number / EPIC No.):</label>
+            <label>एपिक नंबर (EPIC No.):</label>
             <input type="text" id="oldVoterNo" placeholder="अपना पुराना वोटर आईडी नंबर लिखें">
         </div>
-
         <div class="group" id="voterCorrectionGroup" style="display: none;">
             <label>वोटर कार्ड में क्या सुधारवाना है?</label>
             <div class="checkbox-group">
@@ -39,24 +34,23 @@
                 <label><input type="checkbox" name="voterCorrect" value="फोटो"> फोटो</label>
             </div>
         </div>
-
         <div class="group"><label>पूरा नाम:</label><input type="text" id="vName"></div>
         <div class="group"><label>पिता का नाम:</label><input type="text" id="vFname"></div>
         <div class="group"><label>माता का नाम:</label><input type="text" id="vMname"></div>
+        <div class="group"><label>आधार नंबर (12 अंक):</label><input type="text" id="vAadhaar" placeholder="12 अंकों का आधार नंबर"></div>
         <div class="group">
             <label>जेंडर (लिंग):</label>
             <select id="vGender"><option value="पुरुष">पुरुष</option><option value="महिला">महिला</option><option value="अन्य">अन्य</option></select>
         </div>
+        <div class="group"><label>जन्मतिथि (DOB):</label><input type="date" id="vDob"></div>
         <div class="group"><label>पूरा पता:</label><input type="text" id="vAddress"></div>
         <div class="group"><label>मोबाइल (WhatsApp):</label><input type="tel" id="vMobile" placeholder="10 अंकों का नंबर"></div>
         <div class="group"><label>जन्मतिथि प्रमाण:</label><input type="file" id="vDobProof" multiple></div>
         <div class="group"><label>पता प्रमाण:</label><input type="file" id="vAddressProof" multiple></div>
         <div class="group"><label>फोटो:</label><input type="file" id="vPhoto" multiple></div>
-
         <button class="btn" onclick="validateAndSendVoter()">WhatsApp पर भेजें</button>
         <a href="index.html" class="back-link">← होम पेज पर वापस जाएं</a>
     </div>
-
     <script>
         function toggleVoterCorrection() {
             let type = document.getElementById("voterType").value;
@@ -64,31 +58,24 @@
             document.getElementById("oldVoterGroup").style.display = isCorrection ? "block" : "none";
             document.getElementById("voterCorrectionGroup").style.display = isCorrection ? "block" : "none";
         }
-
         function getFiles(id) {
             let files = document.getElementById(id).files;
             let names = [];
             for (let i = 0; i < files.length; i++) { names.push(files[i].name); }
             return names.length > 0 ? names.join(", ") : "संलग्न नहीं";
         }
-
         function isValidMobile(mobile) { return /^[0-9]{10}$/.test(mobile); }
-
         function validateAndSendVoter() {
             let name = document.getElementById("vName").value.trim();
             let mobile = document.getElementById("vMobile").value.trim();
-
             if (!name) { alert("कृपया नाम दर्ज करें!"); return; }
             if (!isValidMobile(mobile)) { alert("कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें!"); return; }
-
             let voterType = document.getElementById("voterType").value;
             let oldVoterNo = voterType === "वोटर कार्ड सुधार" ? (document.getElementById("oldVoterNo").value || "लागू नहीं") : "नया कार्ड";
-            
             let corrections = [];
             if(voterType === "वोटर कार्ड सुधार") {
                 document.querySelectorAll('input[name="voterCorrect"]:checked').forEach(cb => corrections.push(cb.value));
             }
-
             let msg = `*--- वोटर कार्ड आवेदन ---*\n` +
                       `💻 दुकान: Best to Best Computer (बड़बाद)\n` +
                       `📋 सेवा: ${voterType}\n` +
@@ -97,14 +84,15 @@
                       `👤 नाम: ${name}\n` +
                       `👨‍👦 पिता का नाम: ${document.getElementById("vFname").value}\n` +
                       `👩‍👦 माता का नाम: ${document.getElementById("vMname").value}\n` +
+                      `🆔 आधार नंबर: ${document.getElementById("vAadhaar").value || 'लागू नहीं'}\n` +
                       `⚧ जेंडर: ${document.getElementById("vGender").value}\n` +
+                      `📅 जन्मतिथि: ${document.getElementById("vDob").value}\n` +
                       `🏠 पता: ${document.getElementById("vAddress").value}\n` +
                       `📞 मोबाइल: ${mobile}\n\n` +
                       `📎 फाइलें:\n` +
                       `- जन्मतिथि प्रूफ: ${getFiles('vDobProof')}\n` +
                       `- पता प्रूफ: ${getFiles('vAddressProof')}\n` +
                       `- फोटो: ${getFiles('vPhoto')}`;
-
             window.open(`https://wa.me/916204339748?text=` + encodeURIComponent(msg), '_blank');
         }
     </script>
