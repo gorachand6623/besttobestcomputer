@@ -11,17 +11,23 @@
     <div class="top-arrow" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</div>
     <div class="form-box">
         <h2>कलर फोटो प्रिंट आर्डर फॉर्म</h2>
-        <div class="fee-table">रेट लिस्ट: 3 पीस = ₹20 | 6 पीस = ₹30 | 12 पीस = ₹50 | 24 पीस = ₹90</div>
+        
+        <div class="fee-table" style="background: #e8f0fe; color: #1a73e8; padding: 10px; border-radius: 6px; font-weight: 600; text-align: center; margin-bottom: 15px; font-size: 14px; line-height: 1.6;">
+            🖼️ <b>फोटो रेट लिस्ट (Rate List):</b><br>
+            • 3 पीस = ₹20 | • 6 पीस = ₹30<br>
+            • 12 पीस = ₹50 | • 24 पीस = ₹90
+        </div>
         
         <div class="group"><label>ग्राहक का नाम:</label><input type="text" id="pName"></div>
         <div class="group"><label>मोबाइल (WhatsApp):</label><input type="tel" id="pMobile" placeholder="10 अंकों का नंबर"></div>
+        
         <div class="group">
-            <label>फोटो की मात्रा चुनें:</label>
-            <select id="pQty">
-                <option value="3 पीस (₹20)">3 पीस - ₹20</option>
-                <option value="6 पीस (₹30)">6 पीस - ₹30</option>
-                <option value="12 पीस (₹50)">12 पीस - ₹50</option>
-                <option value="24 पीस (₹90)">24 पीस - ₹90</option>
+            <label>फोटो की मात्रा और शुल्क चुनें:</label>
+            <select id="pQty" onchange="updateQRImage()">
+                <option value="3 पीस (₹20)" data-price="20" data-img="20qr.jpg">3 पीस - ₹20</option>
+                <option value="6 पीस (₹30)" data-price="30" data-img="30qr.jpg">6 पीस - ₹30</option>
+                <option value="12 पीस (₹50)" data-price="50" data-img="50qr.jpg">12 पीस - ₹50</option>
+                <option value="24 पीस (₹90)" data-price="90" data-img="90qr.jpg">24 पीस - ₹90</option>
             </select>
         </div>
 
@@ -34,8 +40,9 @@
         </div>
 
         <div id="onlinePayBox" style="display: none; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px dashed #1a73e8; text-align: center; margin-bottom: 15px;">
-            <b style="color: #1a73e8; display: block; margin-bottom: 8px;">📱 QR कोड स्कैन करके पेमेंट करें:</b>
-            <img src="qrcode.jpg" alt="UPI QR Code" style="width: 180px; height: auto; margin: 10px auto; display: block; border-radius: 8px; border: 1px solid #ccc;">
+            <b style="color: #1a73e8; display: block; margin-bottom: 8px;" id="qrTitle">📱 QR कोड स्कैन करके पेमेंट करें:</b>
+            <!-- यहाँ चुनी गई मात्रा के हिसाब से अपने आप QR बदल जाएगा -->
+            <img id="dynamicQR" src="20qr.jpg" alt="UPI QR Code" style="width: 180px; height: auto; margin: 10px auto; display: block; border-radius: 8px; border: 1px solid #ccc;">
             <p style="font-size: 13px; color: #555; margin: 0 0 10px 0;">UPI ID: <b>kantlalmandal88@okicici</b></p>
             <div style="font-size: 12px; color: #d9534f; background: #fff3f3; padding: 6px; border-radius: 4px;">
                 ⚠️ पेमेंट करने के बाद UTR नंबर नीचे लिखें:
@@ -56,23 +63,41 @@
     </div>
 
     <script>
+        function updateQRImage() {
+            let select = document.getElementById("pQty");
+            let selectedOption = select.options[select.selectedIndex];
+            let price = selectedOption.getAttribute("data-price");
+            let imgFile = selectedOption.getAttribute("data-img");
+            
+            document.getElementById("qrTitle").innerText = `📱 QR कोड स्कैन करके ₹${price} पेमेंट करें:`;
+            document.getElementById("dynamicQR").src = imgFile;
+        }
+
         function togglePaymentBox() {
             let method = document.getElementById("payMethod").value;
             let payBox = document.getElementById("onlinePayBox");
             payBox.style.display = method.includes("ऑनलाइन") ? "block" : "none";
         }
+
         function isValidMobile(mobile) { return /^[0-9]{10}$/.test(mobile); }
+
         function validateAndSendPhoto() {
             let name = document.getElementById("pName").value.trim();
             let mobile = document.getElementById("pMobile").value.trim();
             if (!name) { alert("कृपया नाम दर्ज करें!"); return; }
             if (!isValidMobile(mobile)) { alert("कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें!"); return; }
+            
+            let qtySelect = document.getElementById("pQty");
+            let qtyText = qtySelect.value;
+            let price = qtySelect.options[qtySelect.selectedIndex].getAttribute("data-price");
+
             let payMethod = document.getElementById("payMethod").value;
             let upiRef = document.getElementById("upiRefNo").value.trim() || "लागू नहीं";
 
             let msg = `🧾 *--- फोटो आर्डर रसीद ---*\n` +
                       `💻 दुकान: Best to Best Computer (बड़बाद)\n` +
-                      `🖼️ मात्रा: ${document.getElementById("pQty").value}\n` +
+                      `🖼️ मात्रा: ${qtyText}\n` +
+                      `💵 कुल शुल्क: ₹${price}\n` +
                       `💳 भुगतान स्थिति: ${payMethod}\n` +
                       (payMethod.includes("ऑनलाइन") ? `🔢 UTR/Ref No: ${upiRef}\n` : ``) +
                       `\n👤 नाम: ${name}\n` +
