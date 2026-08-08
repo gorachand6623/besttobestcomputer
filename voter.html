@@ -1,14 +1,18 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>वोटर कार्ड फॉर्म - Best to Best Computer</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?
+
+family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="top-arrow" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</div>
+    <div class="top-arrow" onclick="window.scrollTo({top: 0, behavior: 
+
+'smooth'})">↑</div>
     <div class="form-box">
         <h2>वोटर कार्ड आवेदन फॉर्म</h2>
         <div class="fee">शुल्क (Fee): ₹100</div>
@@ -26,28 +30,60 @@
         <div class="group" id="voterCorrectionGroup" style="display: none;">
             <label>वोटर कार्ड में क्या सुधारवाना है?</label>
             <div class="checkbox-group">
-                <label><input type="checkbox" name="voterCorrect" value="नाम"> नाम</label>
-                <label><input type="checkbox" name="voterCorrect" value="पिता का नाम"> पिता का नाम</label>
-                <label><input type="checkbox" name="voterCorrect" value="माता का नाम"> माता का नाम</label>
-                <label><input type="checkbox" name="voterCorrect" value="लिंग (Gender)"> लिंग (Gender)</label>
-                <label><input type="checkbox" name="voterCorrect" value="पता"> पता</label>
-                <label><input type="checkbox" name="voterCorrect" value="फोटो"> फोटो</label>
+                <label><input type="checkbox" name="voterCorrect" value="नाम"> 
+
+नाम</label>
+                <label><input type="checkbox" name="voterCorrect" value="पिता का नाम"> पिता 
+
+का नाम</label>
+                <label><input type="checkbox" name="voterCorrect" value="माता का नाम"> 
+
+माता का नाम</label>
+                <label><input type="checkbox" name="voterCorrect" value="लिंग 
+
+(Gender)"> लिंग (Gender)</label>
+                <label><input type="checkbox" name="voterCorrect" value="पता"> 
+
+पता</label>
+                <label><input type="checkbox" name="voterCorrect" value="फोटो"> 
+
+फोटो</label>
             </div>
         </div>
         <div class="group"><label>पूरा नाम:</label><input type="text" id="vName"></div>
-        <div class="group"><label>पिता का नाम:</label><input type="text" id="vFname"></div>
-        <div class="group"><label>माता का नाम:</label><input type="text" id="vMname"></div>
-        <div class="group"><label>आधार नंबर (12 अंक):</label><input type="text" id="vAadhaar" placeholder="12 अंकों का आधार नंबर"></div>
+        <div class="group"><label>पिता का नाम:</label><input type="text" 
+
+id="vFname"></div>
+        <div class="group"><label>माता का नाम:</label><input type="text" 
+
+id="vMname"></div>
+        <div class="group"><label>आधार नंबर (12 अंक):</label><input type="text" 
+
+id="vAadhaar" placeholder="12 अंकों का आधार नंबर"></div>
         <div class="group">
             <label>जेंडर (लिंग):</label>
-            <select id="vGender"><option value="पुरुष">पुरुष</option><option value="महिला">महिला</option><option value="अन्य">अन्य</option></select>
+            <select id="vGender"><option value="पुरुष">पुरुष</option><option 
+
+value="महिला">महिला</option><option value="अन्य">अन्य</option></select>
         </div>
-        <div class="group"><label>जन्मतिथि (DOB):</label><input type="date" id="vDob"></div>
-        <div class="group"><label>पूरा पता:</label><input type="text" id="vAddress"></div>
-        <div class="group"><label>मोबाइल (WhatsApp):</label><input type="tel" id="vMobile" placeholder="10 अंकों का नंबर"></div>
-        <div class="group"><label>जन्मतिथि प्रमाण:</label><input type="file" id="vDobProof" multiple></div>
-        <div class="group"><label>पता प्रमाण:</label><input type="file" id="vAddressProof" multiple></div>
-        <div class="group"><label>फोटो:</label><input type="file" id="vPhoto" multiple></div>
+        <div class="group"><label>जन्मतिथि (DOB):</label><input type="date" 
+
+id="vDob"></div>
+        <div class="group"><label>पूरा पता:</label><input type="text" 
+
+id="vAddress"></div>
+        <div class="group"><label>मोबाइल (WhatsApp):</label><input type="tel" 
+
+id="vMobile" placeholder="10 अंकों का नंबर"></div>
+        <div class="group"><label>जन्मतिथि प्रमाण:</label><input type="file" id="vDobProof" 
+
+multiple></div>
+        <div class="group"><label>पता प्रमाण:</label><input type="file" 
+
+id="vAddressProof" multiple></div>
+        <div class="group"><label>फोटो:</label><input type="file" id="vPhoto" 
+
+multiple></div>
         <button class="btn" onclick="validateAndSendVoter()">WhatsApp पर भेजें</button>
         <a href="index.html" class="back-link">← होम पेज पर वापस जाएं</a>
     </div>
@@ -55,8 +91,12 @@
         function toggleVoterCorrection() {
             let type = document.getElementById("voterType").value;
             let isCorrection = (type === "वोटर कार्ड सुधार");
-            document.getElementById("oldVoterGroup").style.display = isCorrection ? "block" : "none";
-            document.getElementById("voterCorrectionGroup").style.display = isCorrection ? "block" : "none";
+            document.getElementById("oldVoterGroup").style.display = isCorrection ? 
+
+"block" : "none";
+            document.getElementById("voterCorrectionGroup").style.display = 
+
+isCorrection ? "block" : "none";
         }
         function getFiles(id) {
             let files = document.getElementById(id).files;
@@ -71,20 +111,28 @@
             if (!name) { alert("कृपया नाम दर्ज करें!"); return; }
             if (!isValidMobile(mobile)) { alert("कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें!"); return; }
             let voterType = document.getElementById("voterType").value;
-            let oldVoterNo = voterType === "वोटर कार्ड सुधार" ? (document.getElementById("oldVoterNo").value || "लागू नहीं") : "नया कार्ड";
+            let oldVoterNo = voterType === "वोटर कार्ड सुधार" ? (document.getElementById
+
+("oldVoterNo").value || "लागू नहीं") : "नया कार्ड";
             let corrections = [];
             if(voterType === "वोटर कार्ड सुधार") {
-                document.querySelectorAll('input[name="voterCorrect"]:checked').forEach(cb => corrections.push(cb.value));
+                document.querySelectorAll('input
+
+[name="voterCorrect"]:checked').forEach(cb => corrections.push(cb.value));
             }
             let msg = `*--- वोटर कार्ड आवेदन ---*\n` +
                       `💻 दुकान: Best to Best Computer (बड़बाद)\n` +
                       `📋 सेवा: ${voterType}\n` +
-                      (voterType === "वोटर कार्ड सुधार" ? `🔢 एपिक नंबर: ${oldVoterNo}\n✏️ सुधार: ${corrections.join(", ") || 'कुछ नहीं'}\n` : ``) +
+                      (voterType === "वोटर कार्ड सुधार" ? `🔢 एपिक नंबर: ${oldVoterNo}\n✏️ सुधार: 
+
+${corrections.join(", ") || 'कुछ नहीं'}\n` : ``) +
                       `💵 शुल्क: ₹100\n\n` +
                       `👤 नाम: ${name}\n` +
                       `👨‍👦 पिता का नाम: ${document.getElementById("vFname").value}\n` +
                       `👩‍👦 माता का नाम: ${document.getElementById("vMname").value}\n` +
-                      `🆔 आधार नंबर: ${document.getElementById("vAadhaar").value || 'लागू नहीं'}\n` +
+                      `🆔 आधार नंबर: ${document.getElementById("vAadhaar").value || 'लागू 
+
+नहीं'}\n` +
                       `⚧ जेंडर: ${document.getElementById("vGender").value}\n` +
                       `📅 जन्मतिथि: ${document.getElementById("vDob").value}\n` +
                       `🏠 पता: ${document.getElementById("vAddress").value}\n` +
@@ -93,7 +141,9 @@
                       `- जन्मतिथि प्रूफ: ${getFiles('vDobProof')}\n` +
                       `- पता प्रूफ: ${getFiles('vAddressProof')}\n` +
                       `- फोटो: ${getFiles('vPhoto')}`;
-            window.open(`https://wa.me/916204339748?text=` + encodeURIComponent(msg), '_blank');
+            window.open(`https://wa.me/916204339748?text=` + encodeURIComponent
+
+(msg), '_blank');
         }
     </script>
 </body>
