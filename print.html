@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
@@ -8,16 +8,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-
     <div class="top-arrow" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</div>
-
     <div class="form-box">
         <h2>प्रिंट आउट सेवा (Document Print)</h2>
-        <div class="fee">B/W Print Rs.10 Color Print Rs.15</div>
-
+        <div class="fee">B/W Print Rs.10 | Color Print Rs.15</div>
+        
         <div class="group"><label>ग्राहक का नाम:</label><input type="text" id="printName"></div>
         <div class="group"><label>मोबाइल (WhatsApp):</label><input type="tel" id="printMobile" placeholder="10 अंकों का नंबर"></div>
-        
         <div class="group">
             <label>प्रिंट का प्रकार (Print Type):</label>
             <select id="printType">
@@ -25,53 +22,69 @@
                 <option value="कलर प्रिंट (Color Print)">कलर प्रिंट (Color)</option>
             </select>
         </div>
-
         <div class="group">
             <label>कॉपी की संख्या (Copies):</label>
             <input type="text" id="printCopies" placeholder="जैसे: 1 कॉपी, 2 कॉपी आदि">
         </div>
 
-        <!-- यहाँ 'multiple' की मदद से एक साथ कई फाइलें चुनी जा सकती हैं -->
         <div class="group">
-            <label>डॉक्यूमेंट्स अपलोड करें (एक साथ कई फाइलें चुनें):</label>
-            <input type="file" id="printFiles" multiple>
+            <label>भुगतान का तरीका (Payment Method):</label>
+            <select id="payMethod" onchange="togglePaymentBox()">
+                <option value="दुकान पर नकद देंगे (Pay at Shop)">दुकान पर नकद देंगे (Cash / Pay at Shop)</option>
+                <option value="ऑनलाइन UPI पेमेंट (Online QR Scan)">ऑनलाइन UPI पेमेंट (QR स्कैन करके)</option>
+            </select>
         </div>
 
-        <button class="btn" onclick="validateAndSendPrint()">WhatsApp पर भेजें</button>
+        <div id="onlinePayBox" style="display: none; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px dashed #1a73e8; text-align: center; margin-bottom: 15px;">
+            <b style="color: #1a73e8; display: block; margin-bottom: 8px;">📱 QR कोड स्कैन करके पेमेंट करें:</b>
+            <img src="qrcode.jpg" alt="UPI QR Code" style="width: 180px; height: auto; margin: 10px auto; display: block; border-radius: 8px; border: 1px solid #ccc;">
+            <p style="font-size: 13px; color: #555; margin: 0 0 10px 0;">UPI ID: <b>kantlalmandal88@okicici</b></p>
+            <div style="font-size: 12px; color: #d9534f; background: #fff3f3; padding: 6px; border-radius: 4px;">
+                ⚠️ पेमेंट करने के बाद UTR नंबर नीचे लिखें:
+            </div>
+            <div class="group" style="margin-top: 10px; text-align: left;">
+                <label>UPI Transaction / UTR No:</label>
+                <input type="text" id="upiRefNo" placeholder="पेमेंट का UTR नंबर लिखें">
+            </div>
+        </div>
+        
+        <div style="background: #eef2f7; padding: 12px; border-radius: 8px; margin-bottom: 15px;">
+            <b style="color: #d9534f; display: block; margin-bottom: 5px;">📄 निर्देश:</b>
+            <p style="margin: 0; font-size: 13px; color: #555;">⚠️ <i>फॉर्म सबमिट करने के बाद अपनी गैलरी से फाइल/डॉक्यूमेंट चुनकर WhatsApp पर भेजें।</i></p>
+        </div>
+
+        <button class="btn" onclick="validateAndSendPrint()">WhatsApp पर रसीद भेजें</button>
         <a href="index.html" class="back-link">← होम पेज पर वापस जाएं</a>
     </div>
 
     <script>
+        function togglePaymentBox() {
+            let method = document.getElementById("payMethod").value;
+            let payBox = document.getElementById("onlinePayBox");
+            payBox.style.display = method.includes("ऑनलाइन") ? "block" : "none";
+        }
         function isValidMobile(mobile) { return /^[0-9]{10}$/.test(mobile); }
-
         function validateAndSendPrint() {
             let name = document.getElementById("printName").value.trim();
             let mobile = document.getElementById("printMobile").value.trim();
-
             if (!name) { alert("कृपया नाम दर्ज करें!"); return; }
             if (!isValidMobile(mobile)) { alert("कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें!"); return; }
-
             let printType = document.getElementById("printType").value;
             let copies = document.getElementById("printCopies").value.trim() || "1 कॉपी";
+            let payMethod = document.getElementById("payMethod").value;
+            let upiRef = document.getElementById("upiRefNo").value.trim() || "लागू नहीं";
 
-            // एक साथ चुनी गई सभी फाइलों के नाम निकालने का तरीका
-            let fileInput = document.getElementById("printFiles");
-            let fileNames = [];
-            for (let i = 0; i < fileInput.files.length; i++) {
-                fileNames.push(fileInput.files[i].name);
-            }
-            let fileNamesText = fileNames.length > 0 ? fileNames.join(", ") : "संलग्न नहीं";
-
-            let msg = `*--- प्रिंट आउट आर्डर ---*\n` +
+            let msg = `🧾 *--- प्रिंट आउट रसीद ---*\n` +
                       `💻 दुकान: Best to Best Computer (बड़बाद)\n` +
                       `🖨️ प्रकार: ${printType}\n` +
-                      `📄 कॉपी: ${copies}\n\n` +
-                      `👤 नाम: ${name}\n` +
-                      `📞 मोबाइल: ${mobile}\n` +
-                      `📎 कुल फाइलें (${fileNames.length}): ${fileNamesText}\n\n` +
-                      `_(नोट: कृपया इस मैसेज के साथ अपनी फाइलें व्हाट्सएप पर भेज दें।)_`;
-
+                      `📄 कॉपी: ${copies}\n` +
+                      `💳 भुगतान स्थिति: ${payMethod}\n` +
+                      (payMethod.includes("ऑनलाइन") ? `🔢 UTR/Ref No: ${upiRef}\n` : ``) +
+                      `\n👤 नाम: ${name}\n` +
+                      `📞 मोबाइल: ${mobile}\n\n` +
+                      `📎 _(नोट: ग्राहक इसके बाद फाइल WhatsApp पर भेजेंगे)_`;
             window.open(`https://wa.me/916204339748?text=` + encodeURIComponent(msg), '_blank');
         }
     </script>
 </body>
+</html>
