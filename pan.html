@@ -47,20 +47,41 @@
         <div class="group"><label>मोबाइल (WhatsApp):</label><input type="tel" id="panMobile" placeholder="10 अंकों का नंबर"></div>
         <div class="group"><label>ईमेल आईडी:</label><input type="email" id="panEmail" placeholder="name@gmail.com"></div>
 
-        <!-- ज़रूरी डॉक्यूमेंट्स की सूची और निर्देश -->
+        <!-- पेमेंट का विकल्प (Cash या Online QR Code) -->
+        <div class="group">
+            <label>भुगतान का तरीका (Payment Method):</label>
+            <select id="payMethod" onchange="togglePaymentBox()">
+                <option value="दुकान पर नकद देंगे (Pay at Shop)">दुकान पर नकद देंगे (Cash / Pay at Shop)</option>
+                <option value="ऑनलाइन UPI पेमेंट (Online QR Scan)">ऑनलाइन UPI पेमेंट (QR स्कैन करके)</option>
+            </select>
+        </div>
+
+        <!-- ऑनलाइन पेमेंट बॉक्स (QR Code और UPI ID) -->
+        <div id="onlinePayBox" style="display: none; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px dashed #1a73e8; text-align: center; margin-bottom: 15px;">
+            <b style="color: #1a73e8; display: block; margin-bottom: 8px;">📱 QR कोड स्कैन करके ₹200 पेमेंट करें:</b>
+            <p style="font-size: 13px; color: #555; margin: 0 0 10px 0;">UPI ID: <b>kantlalmandal88@okicici</b></p>
+            <div style="font-size: 12px; color: #d9534f; background: #fff3f3; padding: 6px; border-radius: 4px;">
+                ⚠️ पेमेंट करने के बाद ट्रांजैक्शन / यूटीआर (UTR) नंबर नीचे लिखें:
+            </div>
+            <div class="group" style="margin-top: 10px; text-align: left;">
+                <label>UPI Transaction / UTR No (यदि ऑनलाइन दिया):</label>
+                <input type="text" id="upiRefNo" placeholder="पेमेंट का रिफरेन्स या UTR नंबर लिखें">
+            </div>
+        </div>
+
         <div style="background: #eef2f7; padding: 12px; border-radius: 8px; margin-bottom: 15px;">
-            <b style="color: #d9534f; display: block; margin-bottom: 5px;">📄 लगने वाले डॉक्यूमेंट्स (Documents Required):</b>
+            <b style="color: #d9534f; display: block; margin-bottom: 5px;">📄 लगने वाले डॉक्यूमेंट्स:</b>
             <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #333;">
                 <li>फोटो (Photo)</li>
                 <li>हस्ताक्षर (Sign)</li>
-                <li>पहचान प्रमाण (ID Proof / Aadhaar)</li>
+                <li>पहचान प्रमाण (ID Proof)</li>
                 <li>पता प्रमाण (Address Proof)</li>
                 <li>जन्मतिथि प्रमाण (DOB Proof)</li>
             </ul>
-            <p style="margin: 8px 0 0 0; font-size: 13px; color: #555;">⚠️ <i>नोट: फॉर्म सबमिट करने के बाद ऊपर दिए गए डॉक्यूमेंट्स अपनी गैलरी से चुनकर WhatsApp पर भेजें।</i></p>
+            <p style="margin: 8px 0 0 0; font-size: 13px; color: #555;">⚠️ <i>नोट: फॉर्म सबमिट करने के बाद अपनी गैलरी से डॉक्यूमेंट्स चुनकर WhatsApp पर भेजें।</i></p>
         </div>
 
-        <button class="btn" onclick="validateAndSendPan()">WhatsApp पर भेजें</button>
+        <button class="btn" onclick="validateAndSendPan()">WhatsApp पर रसीद भेजें</button>
         <a href="index.html" class="back-link">← होम पेज पर वापस जाएं</a>
     </div>
 
@@ -71,24 +92,46 @@
             document.getElementById("oldPanGroup").style.display = isCorrection ? "block" : "none";
             document.getElementById("correctionGroup").style.display = isCorrection ? "block" : "none";
         }
+
+        function togglePaymentBox() {
+            let method = document.getElementById("payMethod").value;
+            let payBox = document.getElementById("onlinePayBox");
+            if (method.includes("ऑनलाइन")) {
+                payBox.style.display = "block";
+            } else {
+                payBox.style.display = "none";
+            }
+        }
+
         function isValidMobile(mobile) { return /^[0-9]{10}$/.test(mobile); }
+
         function validateAndSendPan() {
             let name = document.getElementById("panName").value.trim();
             let mobile = document.getElementById("panMobile").value.trim();
             if (!name) { alert("कृपया नाम दर्ज करें!"); return; }
             if (!isValidMobile(mobile)) { alert("कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें!"); return; }
+
             let panType = document.getElementById("panType").value;
             let oldPan = panType === "पैन कार्ड सुधार" ? (document.getElementById("oldPanNo").value || "लागू नहीं") : "नया कार्ड";
+            
             let corrections = [];
             if(panType === "पैन कार्ड सुधार") {
                 document.querySelectorAll('input[name="panCorrect"]:checked').forEach(cb => corrections.push(cb.value));
             }
-            let msg = `*--- पैन कार्ड आवेदन ---*\n` +
+
+            let payMethod = document.getElementById("payMethod").value;
+            let upiRef = document.getElementById("upiRefNo").value.trim() || "लागू नहीं";
+
+            // व्हाट्सएप के लिए डिजिटल रसीद (Receipt Format)
+            let msg = `🧾 *--- पेमेंट & आवेदन रसीद ---*\n` +
                       `💻 दुकान: Best to Best Computer (बड़बाद)\n` +
                       `📋 सेवा: ${panType}\n` +
                       (panType === "पैन कार्ड सुधार" ? `🔢 पुराना पैन: ${oldPan}\n✏️ सुधार: ${corrections.join(", ") || 'कुछ नहीं'}\n` : ``) +
-                      `💵 शुल्क: ₹200\n\n` +
-                      `👤 नाम: ${name}\n` +
+                      `💵 शुल्क: ₹200\n` +
+                      `💳 भुगतान स्थिति: ${payMethod}\n` +
+                      (payMethod.includes("ऑनलाइन") ? `🔢 UTR/Ref No: ${upiRef}\n` : ``) +
+                      `\n` +
+                      `👤 ग्राहक नाम: ${name}\n` +
                       `👨‍👦 पिता का नाम: ${document.getElementById("panFname").value}\n` +
                       `👩‍👦 माता का नाम: ${document.getElementById("panMname").value}\n` +
                       `🆔 आधार नंबर: ${document.getElementById("panAadhaar").value || 'लागू नहीं'}\n` +
@@ -96,7 +139,8 @@
                       `📅 जन्मतिथि: ${document.getElementById("panDob").value}\n` +
                       `📞 मोबाइल: ${mobile}\n` +
                       `📧 ईमेल: ${document.getElementById("panEmail").value || 'लागू नहीं'}\n\n` +
-                      `📎 _(नोट: ग्राहक इसके बाद फोटो, साइन और सभी आईडी प्रूफ WhatsApp पर भेजेंगे)_`;
+                      `📎 _(नोट: ग्राहक इसके बाद डॉक्यूमेंट्स WhatsApp पर भेजेंगे)_`;
+
             window.open(`https://wa.me/916204339748?text=` + encodeURIComponent(msg), '_blank');
         }
     </script>
