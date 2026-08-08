@@ -5,17 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>पैन कार्ड फॉर्म - Best to Best Computer</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?
-
-family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="top-arrow" onclick="window.scrollTo({top: 0, behavior: 
-
-'smooth'})">↑</div>
+    <div class="top-arrow" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</div>
     <div class="form-box">
         <h2>पैन कार्ड आवेदन फॉर्म</h2>
         <div class="fee">शुल्क (Fee): ₹200</div>
+        
         <div class="group">
             <label>सेवा चुनें:</label>
             <select id="panType" onchange="togglePanCorrection()">
@@ -30,82 +27,49 @@ family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
         <div class="group" id="correctionGroup" style="display: none;">
             <label>क्या सुधारवाना है?</label>
             <div class="checkbox-group">
-                <label><input type="checkbox" name="panCorrect" value="नाम"> 
-
-नाम</label>
-                <label><input type="checkbox" name="panCorrect" value="पिता का नाम"> पिता का 
-
-नाम</label>
-                <label><input type="checkbox" name="panCorrect" value="जन्मतिथि"> 
-
-जन्मतिथि</label>
+                <label><input type="checkbox" name="panCorrect" value="नाम"> नाम</label>
+                <label><input type="checkbox" name="panCorrect" value="पिता का नाम"> पिता का नाम</label>
+                <label><input type="checkbox" name="panCorrect" value="जन्मतिथि"> जन्मतिथि</label>
                 <label><input type="checkbox" name="panCorrect" value="पता"> पता</label>
-                <label><input type="checkbox" name="panCorrect" value="फोटो/सिग्नेचर"> 
-
-फोटो/सिग्नेचर</label>
+                <label><input type="checkbox" name="panCorrect" value="फोटो/सिग्नेचर"> फोटो/सिग्नेचर</label>
             </div>
         </div>
-        <div class="group"><label>पूरा नाम:</label><input type="text" 
 
-id="panName"></div>
-        <div class="group"><label>पिता का नाम:</label><input type="text" 
-
-id="panFname"></div>
-        <div class="group"><label>माता का नाम:</label><input type="text" 
-
-id="panMname"></div>
-        <div class="group"><label>आधार नंबर (12 अंक):</label><input type="text" 
-
-id="panAadhaar" placeholder="12 अंकों का आधार नंबर"></div>
+        <div class="group"><label>पूरा नाम:</label><input type="text" id="panName"></div>
+        <div class="group"><label>पिता का नाम:</label><input type="text" id="panFname"></div>
+        <div class="group"><label>माता का नाम:</label><input type="text" id="panMname"></div>
+        <div class="group"><label>आधार नंबर (12 अंक):</label><input type="text" id="panAadhaar" placeholder="12 अंकों का आधार नंबर"></div>
         <div class="group">
             <label>जेंडर (लिंग):</label>
-            <select id="panGender"><option value="पुरुष">पुरुष</option><option 
-
-value="महिला">महिला</option><option value="अन्य">अन्य</option></select>
+            <select id="panGender"><option value="पुरुष">पुरुष</option><option value="महिला">महिला</option><option value="अन्य">अन्य</option></select>
         </div>
-        <div class="group"><label>जन्मतिथि (DOB):</label><input type="date" 
+        <div class="group"><label>जन्मतिथि (DOB):</label><input type="date" id="panDob"></div>
+        <div class="group"><label>मोबाइल (WhatsApp):</label><input type="tel" id="panMobile" placeholder="10 अंकों का नंबर"></div>
+        <div class="group"><label>ईमेल आईडी:</label><input type="email" id="panEmail" placeholder="name@gmail.com"></div>
 
-id="panDob"></div>
-        <div class="group"><label>मोबाइल (WhatsApp):</label><input type="tel" 
+        <!-- ज़रूरी डॉक्यूमेंट्स की सूची और निर्देश -->
+        <div style="background: #eef2f7; padding: 12px; border-radius: 8px; margin-bottom: 15px;">
+            <b style="color: #d9534f; display: block; margin-bottom: 5px;">📄 लगने वाले डॉक्यूमेंट्स (Documents Required):</b>
+            <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #333;">
+                <li>फोटो (Photo)</li>
+                <li>हस्ताक्षर (Sign)</li>
+                <li>पहचान प्रमाण (ID Proof / Aadhaar)</li>
+                <li>पता प्रमाण (Address Proof)</li>
+                <li>जन्मतिथि प्रमाण (DOB Proof)</li>
+            </ul>
+            <p style="margin: 8px 0 0 0; font-size: 13px; color: #555;">⚠️ <i>नोट: फॉर्म सबमिट करने के बाद ऊपर दिए गए डॉक्यूमेंट्स अपनी गैलरी से चुनकर WhatsApp पर भेजें।</i></p>
+        </div>
 
-id="panMobile" placeholder="10 अंकों का नंबर"></div>
-        <div class="group"><label>ईमेल आईडी:</label><input type="email" id="panEmail" 
-
-placeholder="name@gmail.com"></div>
-        <div class="group"><label>फोटो:</label><input type="file" id="panPhoto" 
-
-multiple></div>
-        <div class="group"><label>हस्ताक्षर (Sign):</label><input type="file" 
-
-id="panSign" multiple></div>
-        <div class="group"><label>पहचान प्रमाण (ID Proof):</label><input type="file" 
-
-id="panId" multiple></div>
-        <div class="group"><label>पता प्रमाण (Address Proof):</label><input type="file" 
-
-id="panAddress" multiple></div>
-        <div class="group"><label>जन्मतिथि प्रमाण (DOB Proof):</label><input type="file" 
-
-id="panDobProof" multiple></div>
         <button class="btn" onclick="validateAndSendPan()">WhatsApp पर भेजें</button>
         <a href="index.html" class="back-link">← होम पेज पर वापस जाएं</a>
     </div>
+
     <script>
         function togglePanCorrection() {
             let type = document.getElementById("panType").value;
             let isCorrection = (type === "पैन कार्ड सुधार");
-            document.getElementById("oldPanGroup").style.display = isCorrection ? 
-
-"block" : "none";
-            document.getElementById("correctionGroup").style.display = isCorrection 
-
-? "block" : "none";
-        }
-        function getFiles(id) {
-            let files = document.getElementById(id).files;
-            let names = [];
-            for (let i = 0; i < files.length; i++) { names.push(files[i].name); }
-            return names.length > 0 ? names.join(", ") : "संलग्न नहीं";
+            document.getElementById("oldPanGroup").style.display = isCorrection ? "block" : "none";
+            document.getElementById("correctionGroup").style.display = isCorrection ? "block" : "none";
         }
         function isValidMobile(mobile) { return /^[0-9]{10}$/.test(mobile); }
         function validateAndSendPan() {
@@ -114,43 +78,26 @@ id="panDobProof" multiple></div>
             if (!name) { alert("कृपया नाम दर्ज करें!"); return; }
             if (!isValidMobile(mobile)) { alert("कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें!"); return; }
             let panType = document.getElementById("panType").value;
-            let oldPan = panType === "पैन कार्ड सुधार" ? (document.getElementById
-
-("oldPanNo").value || "लागू नहीं") : "नया कार्ड";
+            let oldPan = panType === "पैन कार्ड सुधार" ? (document.getElementById("oldPanNo").value || "लागू नहीं") : "नया कार्ड";
             let corrections = [];
             if(panType === "पैन कार्ड सुधार") {
-                document.querySelectorAll('input
-
-[name="panCorrect"]:checked').forEach(cb => corrections.push(cb.value));
+                document.querySelectorAll('input[name="panCorrect"]:checked').forEach(cb => corrections.push(cb.value));
             }
             let msg = `*--- पैन कार्ड आवेदन ---*\n` +
                       `💻 दुकान: Best to Best Computer (बड़बाद)\n` +
                       `📋 सेवा: ${panType}\n` +
-                      (panType === "पैन कार्ड सुधार" ? `🔢 पुराना पैन: ${oldPan}\n✏️ सुधार: 
-
-${corrections.join(", ") || 'कुछ नहीं'}\n` : ``) +
+                      (panType === "पैन कार्ड सुधार" ? `🔢 पुराना पैन: ${oldPan}\n✏️ सुधार: ${corrections.join(", ") || 'कुछ नहीं'}\n` : ``) +
                       `💵 शुल्क: ₹200\n\n` +
                       `👤 नाम: ${name}\n` +
                       `👨‍👦 पिता का नाम: ${document.getElementById("panFname").value}\n` +
                       `👩‍👦 माता का नाम: ${document.getElementById("panMname").value}\n` +
-                      `🆔 आधार नंबर: ${document.getElementById("panAadhaar").value || 'लागू 
-
-नहीं'}\n` +
+                      `🆔 आधार नंबर: ${document.getElementById("panAadhaar").value || 'लागू नहीं'}\n` +
                       `⚧ जेंडर: ${document.getElementById("panGender").value}\n` +
                       `📅 जन्मतिथि: ${document.getElementById("panDob").value}\n` +
                       `📞 मोबाइल: ${mobile}\n` +
-                      `📧 ईमेल: ${document.getElementById("panEmail").value || 'लागू नहीं'}\n
-
-\n` +
-                      `📎 फाइलें:\n` +
-                      `- फोटो: ${getFiles('panPhoto')}\n` +
-                      `- साइन: ${getFiles('panSign')}\n` +
-                      `- आईडी प्रूफ: ${getFiles('panId')}\n` +
-                      `- पता प्रूफ: ${getFiles('panAddress')}\n` +
-                      `- जन्मतिथि प्रूफ: ${getFiles('panDobProof')}`;
-            window.open(`https://wa.me/916204339748?text=` + encodeURIComponent
-
-(msg), '_blank');
+                      `📧 ईमेल: ${document.getElementById("panEmail").value || 'लागू नहीं'}\n\n` +
+                      `📎 _(नोट: ग्राहक इसके बाद फोटो, साइन और सभी आईडी प्रूफ WhatsApp पर भेजेंगे)_`;
+            window.open(`https://wa.me/916204339748?text=` + encodeURIComponent(msg), '_blank');
         }
     </script>
 </body>
